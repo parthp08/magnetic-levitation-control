@@ -56,18 +56,17 @@ def model(X):
     g = 9.81 # m/sec^2
     yc = 0.12 # m
 
-
     y12 = yc + y2 - y1
 
     # Equations of Motion
     Xdot = X.copy()
-    Fu11 = (u1/a) * 1/(y1+d)**4
-    Fu22 = (u2/a) * 1/(-y2+d)**4
-    Fm12 = c / (y12+d)**2
+    Fu11 = (u1/a) * (1/(y1+d)**4)
+    Fu22 = (u2/a) * (1/(-y2+d)**4)
+    Fm12 = c / ((y12+d)**4)
     Xdot[0] = y1_dot
     Xdot[1] = y2_dot
-    Xdot[2] = Fu11/m - Fm12/m - g
-    Xdot[3] = Fu22/m + Fm12/m - g
+    Xdot[2] = (Fu11/m) - (Fm12/m) - g
+    Xdot[3] = (Fu22/m) + (Fm12/m) - g
     Xdot[4] = 0
     Xdot[5] = 0
 
