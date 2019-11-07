@@ -59,10 +59,10 @@ Dm = 0;
 sys_1 = ss(Am,Bm,Cm,Dm);
 
 % look at the openloop eigenvalues of the system
-openloop_poles = eig(A)
+openloop_poles = eig(Am)
 
 % Verify that the system is Controllable
-Pc = ctrb(A,B);
+Pc = ctrb(Am,Bm);
 rank(Pc)  % should be equal to 4
 
 % Choose desired closed loop pole locations
@@ -82,12 +82,14 @@ cl_sys_1 = ss(A_cl, Bm, Cm, Dm);
 % open loop step response
 figure();
 step(sys_1);
+title('step response of open loop system');
 
 % closed loop step response 
 figure();
 step(cl_sys_1);
+title('step response of closed loop system');
 
-% solve for Kr
+% solve for Kr  % https://www.youtube.com/watch?v=FXSpHy8LvmY
 Kdc = dcgain(cl_sys_1);
 Kr = 1/Kdc;
 
@@ -95,3 +97,4 @@ Kr = 1/Kdc;
 cl_sys_1_scaled = ss(A_cl, Bm*Kr, Cm, Dm);
 figure();
 step(cl_sys_1_scaled);
+title('step response of closed loop system');
