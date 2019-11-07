@@ -97,4 +97,4 @@ Kr = 1/Kdc;
 cl_sys_1_scaled = ss(A_cl, Bm*Kr, Cm, Dm);
 figure();
 step(cl_sys_1_scaled);
-title('step response of closed loop system');
+title('step response of closed loop system(scaled)');
