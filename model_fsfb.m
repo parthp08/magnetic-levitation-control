@@ -56,7 +56,7 @@ Am = A;
 Bm = B(:,1);
 Cm = C(1,:);
 Dm = 0;
-sys_1 = ss(Am,Bm,Cm,Dm);
+sys1 = ss(Am,Bm,Cm,Dm);
 
 % look at the openloop eigenvalues of the system
 openloop_poles = eig(Am)
@@ -77,20 +77,20 @@ A_cl = Am - Bm*K;
 eig(A_cl)  % should be same as desired_closed_loop_poles
 
 % create closed loop system
-cl_sys_1 = ss(A_cl, Bm, Cm, Dm);
+cl_sys1 = ss(A_cl, Bm, Cm, Dm);
 
 % open loop step response
 figure();
-step(sys_1);
+step(sys1);
 title('step response of open loop system');
 
 % closed loop step response 
 figure();
-step(cl_sys_1);
+step(cl_sys1);
 title('step response of closed loop system');
 
 % solve for Kr  % https://www.youtube.com/watch?v=FXSpHy8LvmY
-Kdc = dcgain(cl_sys_1);
+Kdc = dcgain(cl_sys1);
 Kr = 1/Kdc;
 
 % Create scaled input closed loop system

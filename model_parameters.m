@@ -1,7 +1,5 @@
 % Define model parameters
 
-%global a b c d N yc m g
-
 a = 1.65;
 b = 6.20;
 c = 2.69;
@@ -10,9 +8,6 @@ N = 4;
 yc = 0.120;     %m
 m = 0.120;      %kg
 g = 9.81;       %m/s^2
-
-% Collect parameters
-parameters = [a,b,c,d,N,yc,m,g];
 
 % Define operating points
 y1o = 0.02;     %m
@@ -24,30 +19,31 @@ y2o = -0.02;    %m
 u1o = a*(y1o + b)^N * (c/(yc + y2o - y1o + d)^N + m*g);     %A
 u2o = a*(-y2o + b)^N * (-c/(yc + y2o - y1o + d)^N + m*g);   %A
 
+% Dummy values to simplify equations
 ya = (y1o + b);
 yb = (-y2o + b);
 yd = yc + y2o - y1o + d;
 
-%% Define our linearized state space model
+%% Define linearized state space model
 
-Am = [0,                                             0,                                         1, 0;... 
-      0,                                             0,                                         0, 1;...
-      (-1/m)*(4*u1o/(a*ya^(N+1)) + 4*c/yd^(N+1)),    (1/m)*(4*c/yd^(N+1)),                      0, 0;...
-      (1/m)*(4*c/yd^(N+1)),                          (1/m)*(4*u2o/(a*yb^(N+1)) - 4*c/yd^(N+1)), 0, 0];
+A = [0,                                             0,                                         1, 0;... 
+     0,                                             0,                                         0, 1;...
+     (-1/m)*(4*u1o/(a*ya^(N+1)) + 4*c/yd^(N+1)),    (1/m)*(4*c/yd^(N+1)),                      0, 0;...
+     (1/m)*(4*c/yd^(N+1)),                          (1/m)*(4*u2o/(a*yb^(N+1)) - 4*c/yd^(N+1)), 0, 0];
  
-Bm = [0,            0;...
-      0,            0;...
-      1/(m*a*ya^N), 0;...
-      0,            1/(m*a*yb^N)];
+B = [0,            0;...
+     0,            0;...
+     1/(m*a*ya^N), 0;...
+     0,            1/(m*a*yb^N)];
  
- Cm = [eye(4,2), zeros(4,2)];
+ C = [eye(4,2), zeros(4,2)];
  
- Dm = zeros(4,2);
+ D = zeros(4,2);
 
 %% Build state equation, transfer matrix, OCF, CCF, JCF realizations
 
 % Original State and output equation
-state_sys = ss(Am, Bm, Cm, Dm);
+state_sys = ss(A, B, C, D);
  
 % Transfer matrices and SISO transfer functions
 tf_sys = tf(state_sys);
@@ -63,6 +59,6 @@ ocf2 = canon(tf2, 'companion');
 ccf2 = ocf2.';
 [sim_mat2, jcf2] = jordan(ocf2.A);
 
-%% PID Controller
+%% Save parameters
 
-% Look into Zeigler-Nichols method
+save('state_space_model.mat')
