@@ -80,9 +80,9 @@ tf_4 = sys_tf(2,2);     % input:u2   optput:y2
 %% closed loop system analysis
 % Controller Design: PID Controller
 % Define Design Specifications ==> ???????
-Kp = -1770;
-Ki = 5;
-Kd = 1560;
+Kp = 15000;
+Ki = 10;
+Kd = 1000;
 PID = pid(Kp,Ki,Kd);
 cl_sys1 = feedback(tf_1, PID); % closed loop
 
@@ -120,6 +120,30 @@ figure();
 plot(t, y, t, u);
 %figure();
 %plot(t, y);
+
+% Attempt at fractional order tuning
+
+load state_space_model.mat
+
+Kp = 100;
+Ki = 51;
+L = 2;
+Kd = 1000;
+M = 1;
+
+H1 = fotf(tf1);
+PID = fracpid(Kp, Ki, L, Kd, M);
+clsys1 = feedback(H1, PID);
+
+t = linspace(0, 10, 100);  % time array
+
+yimpulse = impulse(clsys1, t);
+ystep = step(clsys1, t);
+% impulse response
+figure();
+plot(t, yimpulse);
+
+isstable(clsys1, 1)
 
 %% introducing noise and parameter variations or uncertainity in the system
 % https://www.mathworks.com/help/robust/gs/modeling-uncertainty.html
