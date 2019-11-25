@@ -37,9 +37,7 @@ B = [0 0;
     0 ku22/m];
 
 C = [1 0 0 0;
-    0 1 0 0;
-    0 0 1 0;
-    0 0 0 1];
+    0 1 0 0];
 
 D = 0;
 
@@ -52,8 +50,8 @@ sys_tf = tf(sys_ss);
 
 % SISO models
 tf_1 = sys_tf(1,1);     % input:u1   optput:y1 
-%tf_2 = sys_tf(1,2);    % input:u2   optput:y1
-%tf_3 = sys_tf(2,1);    % input:u1   optput:y2
+tf_2 = sys_tf(1,2);    % input:u2   optput:y1
+tf_3 = sys_tf(2,1);    % input:u1   optput:y2
 tf_4 = sys_tf(2,2);     % input:u2   optput:y2
 
 % PID controller design (For TF_1)
@@ -63,7 +61,7 @@ Kd = 2;
 PID = pid(Kp,Ki,Kd);
 cl_sys1 = feedback(tf_1, PID); % closed loop
 
-%opt = stepDataOptions('StepAmplitude', 1);
+opt = stepDataOptions('StepAmplitude', 1);
 figure();
 stepplot(tf_1)%, opt);
 figure();
@@ -78,3 +76,4 @@ rlocusplot(tf_1)
 
 figure();
 rlocusplot(cl_sys1)
+
