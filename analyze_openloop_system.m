@@ -6,6 +6,10 @@
 close all
 load state_space_model.mat
 
+% Define transfer function manually so as to avoid floating point errors
+H1 = tf([0.003374, 0, -0.020294],[1, 0, 0.2052, 0, -39.79]);
+H2 = tf([0.003374, 0, 0.02163],[1, 0, 0.2052, 0, -39.79]);
+
 %%%%%%%%%%%%%%%%%%%%%%%%%    SISO System 1    %%%%%%%%%%%%%%%%%%%%%%%%%%
 
 poles1 = pole(tf1);
