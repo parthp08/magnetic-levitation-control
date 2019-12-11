@@ -7,6 +7,7 @@ b = 6.20;
 c = 2.69;
 d = 4.20;
 N = 4;
+
 yc = 0.120;     %m
 m = 0.120;      %kg
 g = 9.81;       %m/s^2
@@ -38,6 +39,8 @@ ku1 = 1/(a*(y1o + b)^4);
 ku2 = 1/(a*(-y2o + b)^4);
 
 %% Define linearized state space model
+
+% NOTE: In the lab manual that Phil has the (3,1) element has negative k2
 
 A = [0,                  0,            1,   0;...
      0,                  0,            0,   1;...

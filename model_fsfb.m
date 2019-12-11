@@ -89,6 +89,10 @@ figure();
 step(cl_sys1);
 title('step response of closed loop system');
 
+figure();
+impulse(cl_sys1);
+title('impulse response closed loop');
+
 % solve for Kr  % https://www.youtube.com/watch?v=FXSpHy8LvmY
 Kdc = dcgain(cl_sys1);
 Kr = 1/Kdc;
