@@ -41,18 +41,23 @@ sys_ss = ss(A,B,C,D);
 sys_tf = tf(sys_ss);
 
 % SISO models
-tf_1 = sys_tf(1,1);     % input:u1   optput:y1 
+tf_1 = sys_tf(1,1);     % input:u1   optput:y1
+[num1, den1] = tfdata(tf_1, 'v');
 %tf_2 = sys_tf(1,2);    % input:u2   optput:y1
 %tf_3 = sys_tf(2,1);    % input:u1   optput:y2
 tf_4 = sys_tf(2,2);     % input:u2   optput:y2
+[num4, den4] = tfdata(tf_4, 'v');
 
 %Retrieve OCF, CCF, JCF for each SISO system
 ocf1 = canon(tf_1, 'companion');
 ccf1 = ocf1.';
 [sim1, jcf1] = jordan(ocf1.A);
+[r1, p1, k1] = residue(num1, den1);
+
 
 ocf4 = canon(tf_4, 'companion');
 ccf4 = ocf4.';
 [sim4, jcf4] = jordan(ocf4.A);
+[r4, p4, k4] = residue(num4, den4);
 
 save('state_space_model.mat')
